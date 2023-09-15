@@ -1,5 +1,8 @@
 import {holas} from "./scripts/hi.js";
 import "./styles/style.css";
+import "./assets/folder.png";
+import "./assets/add.png";
+import "./assets/borrar.png";
 
 holas();
 
