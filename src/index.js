@@ -3,8 +3,10 @@ import "./styles/style.css";
 import "./assets/folder.png";
 import "./assets/add.png";
 import "./assets/borrar.png";
+import { addImages } from "./addImages.js";
 
 holas();
+addImages();
 
 const botonCrear = document.querySelector("#crear-carpeta");
 
