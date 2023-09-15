@@ -116,7 +116,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scripts_hi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scripts/hi.js */ \"./src/scripts/hi.js\");\n/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/style.css */ \"./src/styles/style.css\");\n\n\n\n(0,_scripts_hi_js__WEBPACK_IMPORTED_MODULE_0__.holas)();\n\nconst botonCrear = document.querySelector(\"#crear-carpeta\");\n\nbotonCrear.addEventListener(\"click\", function(){\n    const contenedor = document.createElement(\"div\");\ncontenedor.classList.add(\"contenedor-carpetas\");\n\n// Crear la primera imagen\nconst img1 = document.createElement(\"img\");\nimg1.src = \"../src/assets/folder.png\";\nimg1.alt = \"Carpeta inicial\";\n\n// Crear un párrafo\nconst parrafo = document.createElement(\"p\");\nparrafo.textContent = \"Carpeta inicial\";\n\n// Crear la segunda imagen\nconst img2 = document.createElement(\"img\");\nimg2.src = \"../src/assets/borrar.png\";\nimg2.alt = \"Borrar carpeta\";\n\n// Agregar elementos al contenedor\ncontenedor.appendChild(img1);\ncontenedor.appendChild(parrafo);\ncontenedor.appendChild(img2);\n\n// Agregar el contenedor al documento\nconst contLatIzq = document.querySelector(\".contenedor-lateral-izq\");\ncontLatIzq.appendChild(contenedor);\n});\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scripts_hi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scripts/hi.js */ \"./src/scripts/hi.js\");\n/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/style.css */ \"./src/styles/style.css\");\n/* harmony import */ var _assets_folder_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/folder.png */ \"./src/assets/folder.png\");\n/* harmony import */ var _assets_add_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/add.png */ \"./src/assets/add.png\");\n/* harmony import */ var _assets_borrar_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/borrar.png */ \"./src/assets/borrar.png\");\n\n\n\n\n\n\n(0,_scripts_hi_js__WEBPACK_IMPORTED_MODULE_0__.holas)();\n\nconst botonCrear = document.querySelector(\"#crear-carpeta\");\n\nbotonCrear.addEventListener(\"click\", function(){\n    const contenedor = document.createElement(\"div\");\ncontenedor.classList.add(\"contenedor-carpetas\");\n\n// Crear la primera imagen\nconst img1 = document.createElement(\"img\");\nimg1.src = \"../src/assets/folder.png\";\nimg1.alt = \"Carpeta inicial\";\n\n// Crear un párrafo\nconst parrafo = document.createElement(\"p\");\nparrafo.textContent = \"Carpeta inicial\";\n\n// Crear la segunda imagen\nconst img2 = document.createElement(\"img\");\nimg2.src = \"../src/assets/borrar.png\";\nimg2.alt = \"Borrar carpeta\";\n\n// Agregar elementos al contenedor\ncontenedor.appendChild(img1);\ncontenedor.appendChild(parrafo);\ncontenedor.appendChild(img2);\n\n// Agregar el contenedor al documento\nconst contLatIzq = document.querySelector(\".contenedor-lateral-izq\");\ncontLatIzq.appendChild(contenedor);\n});\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ }),
 
@@ -127,6 +127,36 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scr
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   holas: () => (/* binding */ holas)\n/* harmony export */ });\nfunction holas(){\n    console.log(\"holas\");\n}\n\n\n\n\n//# sourceURL=webpack://todo-list/./src/scripts/hi.js?");
+
+/***/ }),
+
+/***/ "./src/assets/add.png":
+/*!****************************!*\
+  !*** ./src/assets/add.png ***!
+  \****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"c5c4b6f17a737e56c455.png\";\n\n//# sourceURL=webpack://todo-list/./src/assets/add.png?");
+
+/***/ }),
+
+/***/ "./src/assets/borrar.png":
+/*!*******************************!*\
+  !*** ./src/assets/borrar.png ***!
+  \*******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"23f0c91c9c1c66a438c1.png\";\n\n//# sourceURL=webpack://todo-list/./src/assets/borrar.png?");
+
+/***/ }),
+
+/***/ "./src/assets/folder.png":
+/*!*******************************!*\
+  !*** ./src/assets/folder.png ***!
+  \*******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"925e20f6d63f4cca1812.png\";\n\n//# sourceURL=webpack://todo-list/./src/assets/folder.png?");
 
 /***/ })
 
@@ -181,6 +211,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -195,6 +237,29 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */
