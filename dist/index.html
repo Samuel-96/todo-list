@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloc de notas</title>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 </head>
 <body>
-    
+
+    <main>
+        <div class="contenedor-superior">
+            <h1>Bienvenido al bloc de notas</h1>
+             <!--
+            <div class="contenedor-menu">
+                <img src="../src/assets/abrir-menu.png" alt="menú lateral">
+                <p>Menú</p>
+            </div>
+            -->
+            <h2>CARPETA INICIAL</h2>
+        </div>
+
+        <div class="contenedor-lateral-izq">
+            <form action="">
+                <input id="nueva-carpeta" type="text" placeholder="Nombre de la nueva carpeta" max="5">
+                <input id="crear-carpeta" type="button" value="Crear" >
+            </form>
+
+            <div class="contenedor-carpetas">
+                <img src="../src/assets/folder.png" alt="">
+                <p>Carpeta inicial</p>
+                <img src="../src/assets/borrar.png" alt="">
+            </div>
+            
+        </div>
+
+        <div class="contenedor-lateral-dcho">
+            <div class="info-añadir-nota">
+                <p>Notas (0)</p>
+                <img class="nueva-nota" src="../src/assets/add.png" alt="">
+            </div>
+
+            <div class="contenedor-notas">
+                <div class="nota">
+                    <input type="checkbox">
+                    <p>nombre nota</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
 </body>
 </html>
