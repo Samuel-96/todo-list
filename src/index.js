@@ -1,9 +1,6 @@
 import {holas} from "./scripts/hi.js";
 import "./styles/style.css";
-import "./assets/folder.png";
-import "./assets/add.png";
-import "./assets/borrar.png";
-import { addImages } from "./addImages.js";
+import { addImages } from "./scripts/addImages.js";
 
 holas();
 addImages();
