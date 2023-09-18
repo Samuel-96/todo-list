@@ -1,3 +1,6 @@
+import CarpetaIcon from "../assets/folder.png";
+import Borrar from "../assets/borrar.png";
+
 let clicable = true;
 class Carpeta {
 
@@ -17,14 +20,14 @@ class Carpeta {
         contenedor.classList.add("contenedor-carpetas");
 
         const img1 = document.createElement("img");
-        img1.src = "../src/assets/folder.png";
+        img1.src = CarpetaIcon;
         img1.alt = "Carpeta inicial";
 
         const parrafo = document.createElement("p");
         parrafo.textContent = this.nombre;
 
         const img2 = document.createElement("img");
-        img2.src = "../src/assets/borrar.png";
+        img2.src = Borrar;
         img2.alt = "Borrar carpeta";
         img2.classList.add("borrar-carpeta")
 
