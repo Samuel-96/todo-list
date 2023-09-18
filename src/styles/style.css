@@ -21,7 +21,7 @@ main{
     font-weight: bold;
 }
 
-h1{
+.contenedor-superior h1{
     width: 30%;
     border: none;
     border-radius: 6px;
@@ -198,4 +198,36 @@ h2{
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.contenedor-aviso {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(56, 56, 56);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.contenedor-aviso h1 {
+    margin-bottom: 10px;
+}
+
+#mostrarAviso {
+    margin-top: 20px;
+}
+
+#contenedorAviso button{
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF; 
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease-in-out;
 }

@@ -1,16 +1,19 @@
-import Carpeta from "../assets/folder.png";
+import CarpetaIcon from "../assets/folder.png";
 import Add from "../assets/add.png";
 import Borrar from "../assets/borrar.png";
+import {Carpeta} from "./objects.js"
 
 function addImages(){
 
-    const iconoCarpeta = document.querySelector(".icono-carpeta");
-    iconoCarpeta.src = Carpeta;
-    const iconoBorrar = document.querySelector(".icono-borrar");
-    iconoBorrar.src = Borrar;
     const nuevaNota = document.querySelector(".nueva-nota");
     nuevaNota.src = Add;
-    console.log("imagenes añadidas")
+
+    const nuevaCarpeta = new Carpeta("Carpeta inicial");
+    nuevaCarpeta.divCarpeta.id = "carpeta-inicial";
+    nuevaCarpeta.divCarpeta.querySelector(".borrar-carpeta").remove();
+    const contLatIzq = document.querySelector(".contenedor-lateral-izq");
+    contLatIzq.appendChild(nuevaCarpeta.divCarpeta);
+
 }
 
 export {addImages};
