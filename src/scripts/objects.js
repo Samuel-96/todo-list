@@ -11,6 +11,26 @@ class Carpeta {
         this.focus = false;
         this.seleccionada = false;
         this.coleccionNotas = [];
+        this.divCarpeta.carpetaInstance = this;
+    }
+
+    añadirNotas(nota){
+        this.coleccionNotas.push(nota);
+    }
+
+    borrarNota(nombreNota){
+        this.coleccionNotas = this.coleccionNotas.filter(nota => nota.nombre !== nombreNota);
+    }
+
+    mostrarNotas(){
+        const contenedorNotas = document.querySelector(".contenedor-notas");
+        if(contenedorNotas !== null){
+            contenedorNotas.innerHTML = '';
+            contenedorNotas.remove();
+            return this.coleccionNotas;
+        }
+        
+        return this.coleccionNotas;
     }
 
     // Método para crear la estructura de la carpeta
@@ -85,7 +105,7 @@ class Carpeta {
                 h2CarpetaSeleccionada.textContent = elementoSeleccionado.textContent;
                 this.focus = true;
                 clicable = false;
-
+                this.mostrarNotas();
                 
             }
             else if(elementoSeleccionado.classList.value === "contenedor-carpetas"){
@@ -95,7 +115,7 @@ class Carpeta {
                 h2CarpetaSeleccionada.textContent = this.divCarpeta.children[1].textContent;
                 this.focus = true;
                 clicable = false;
-
+                this.mostrarNotas();
 
             }
         }
