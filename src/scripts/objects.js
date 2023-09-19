@@ -18,17 +18,26 @@ class Carpeta {
         this.coleccionNotas.push(nota);
     }
 
-    borrarNota(nombreNota){
-        this.coleccionNotas = this.coleccionNotas.filter(nota => nota.nombre !== nombreNota);
+    borrarNota(id) {
+        this.coleccionNotas = this.coleccionNotas.filter(nota => nota.id !== id);
+        
     }
 
     mostrarNotas(){
-        const contenedorNotas = document.querySelector(".contenedor-notas");
-        if(contenedorNotas !== null){
-            contenedorNotas.innerHTML = '';
-            contenedorNotas.remove();
-            return this.coleccionNotas;
+
+        const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
+        while (contenedorDcho.children.length > 1) {
+            contenedorDcho.removeChild(contenedorDcho.children[1]);
         }
+
+        const contadorNotas = document.querySelector(".contador-notas");
+        const notas = this.coleccionNotas;
+    
+        
+        notas.forEach(nota => {
+            contenedorDcho.appendChild(nota.divNota);
+            contadorNotas.textContent = "Notas (" + notas.length + ")";
+        });
         
         return this.coleccionNotas;
     }
@@ -105,6 +114,8 @@ class Carpeta {
                 h2CarpetaSeleccionada.textContent = elementoSeleccionado.textContent;
                 this.focus = true;
                 clicable = false;
+                const contadorNotas = document.querySelector(".contador-notas");
+                contadorNotas.textContent = "Notas (" + this.mostrarNotas.length + ")";
                 this.mostrarNotas();
                 
             }
@@ -115,6 +126,8 @@ class Carpeta {
                 h2CarpetaSeleccionada.textContent = this.divCarpeta.children[1].textContent;
                 this.focus = true;
                 clicable = false;
+                const contadorNotas = document.querySelector(".contador-notas");
+                contadorNotas.textContent = "Notas (" + this.mostrarNotas.length + ")";
                 this.mostrarNotas();
 
             }
@@ -128,10 +141,97 @@ class Carpeta {
             clicable = true;
             this.divCarpeta.textContent;
             h2CarpetaSeleccionada.textContent = "";
-            console.log("deseleccionada la carpeta");
         }
         
         event.stopPropagation();
+    }
+}
+
+let idNotas = 1;
+
+class Nota{
+    constructor(titulo, fecha, descripcion, carpeta) {
+        this.id = idNotas++;
+        this.titulo = titulo;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.carpeta = carpeta;
+        this.divNota = this.crearNota();
+    }
+
+    borrarNota(){
+        this.carpeta.borrarNota(this.id);
+        this.divNota.remove();
+    }
+    
+    abrirDescripcion() {
+        const div = document.querySelector(".abrirDescripcionNota");
+        const p = document.querySelector(".descripcionNotaAbierta");
+        const button = document.querySelector(".cerrar-descripcion");
+
+        button.addEventListener("click", function(){
+            div.style.display = "none";
+        });
+        p.textContent = this.descripcion;
+        div.style.display = "flex";
+        div.style.padding = "1em";
+        
+    }
+
+    crearNota(){
+
+        const contNota = document.createElement("div");
+        contNota.classList.add("contenedor-notas");
+
+        const divPrimerContenedorNota = document.createElement("div");
+        divPrimerContenedorNota.classList.add("primerContenedorNota");
+        const divNota = document.createElement("div");
+        divNota.classList.add("nota");
+
+        const checkBox = document.createElement("input");
+        checkBox.type = "checkbox";
+        divNota.appendChild(checkBox);
+
+        const titulo = document.createElement("p");
+        titulo.textContent = this.titulo;
+        divNota.appendChild(titulo);
+
+        const descripcion = document.createElement("p");
+        descripcion.textContent = this.descripcion;
+        divNota.appendChild(descripcion);
+
+        const fecha = document.createElement("p");
+        const fechaOriginal = new Date(this.fecha);
+        const opcionesDeFormato = { day: 'numeric', month: 'long', year: 'numeric' };
+        fecha.textContent = fechaOriginal.toLocaleDateString(undefined, opcionesDeFormato);
+        divNota.appendChild(fecha);
+
+        const divSegundoContenedorNota = document.createElement("div");
+        divSegundoContenedorNota.classList.add("segundoContenedorNota");
+
+        const imgBorrarNota = document.createElement("img");
+        imgBorrarNota.src = Borrar;
+        
+        divPrimerContenedorNota.appendChild(divNota);
+        divSegundoContenedorNota.appendChild(imgBorrarNota);
+        
+        contNota.appendChild(divPrimerContenedorNota);
+        contNota.appendChild(divSegundoContenedorNota);
+
+        divPrimerContenedorNota.addEventListener("click", () => {
+            this.abrirDescripcion();
+        });
+
+        imgBorrarNota.addEventListener("click", () => {
+            this.borrarNota();
+
+        });
+
+        return contNota;
+    }
+
+    appendDivNota(){
+        return this;
     }
 }
 
@@ -150,4 +250,4 @@ function desactivarAviso(){
     contenedorAviso.style.display = "none";
 }
 
-export {Carpeta};
+export {Carpeta, Nota};
