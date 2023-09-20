@@ -22,7 +22,10 @@ function añadirBotones(){
         if(nombreCarpeta === ""){
             const avisoh1 = document.querySelector(".aviso");
             avisoh1.textContent = "El nombre de la carpeta no puede estar vacío";
-            activarAviso();
+            const eliminarBtnAviso = document.querySelector("#eliminar");
+            eliminarBtnAviso.style.display = "none";
+            activarAvisoSinEliminar();
+            
         }
         else{
             const nuevaCarpeta = new Carpeta(nombreCarpeta);
@@ -41,6 +44,20 @@ function activarAviso(){
 
     const contenedorAviso = document.getElementById("contenedorAviso");
     const cerrarAvisoBtn = document.getElementById("cerrarAviso");
+    const eliminarBtnAviso = document.querySelector("#eliminar");
+    eliminarBtnAviso.style.display = "";
+    contenedorAviso.style.display = "block";
+    cerrarAvisoBtn.addEventListener("click", () => {
+        contenedorAviso.style.display = "none";
+    });
+}
+
+function activarAvisoSinEliminar(){
+
+    const contenedorAviso = document.getElementById("contenedorAviso");
+    const cerrarAvisoBtn = document.getElementById("cerrarAviso");
+    const eliminarBtnAviso = document.querySelector("#eliminar");
+    eliminarBtnAviso.style.display = "none";
     contenedorAviso.style.display = "block";
     cerrarAvisoBtn.addEventListener("click", () => {
         contenedorAviso.style.display = "none";

@@ -19,6 +19,7 @@ main{
     background-color: #545461;
     color: rgb(255, 255, 255);
     font-weight: bold;
+    max-height: 150px;
 }
 
 .contenedor-superior h1{
@@ -39,8 +40,13 @@ h2{
 }
 
 .contenedor-menu{
+    max-height: 50px;
+    width: 50%;
     display: flex;
     flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .contenedor-menu img{
@@ -111,7 +117,7 @@ h2{
     display: flex;
     align-items: center;
     border-radius: 8px;
-    margin: 8px;
+    margin: 13px;
     padding: 0.2em;
     background-color: #035ab7;
     -webkit-box-shadow: 5px 5px 5px 2px #1A1A1D;; 
@@ -262,7 +268,7 @@ h2{
     padding: 20px;
     text-align: center;
     color: white;
-    height: 460px;
+    height: auto;
 }
 
 .añadir-nota form{
@@ -272,6 +278,10 @@ h2{
     border-style: none;
     pad: 0.5em;
     
+}
+
+#descripcion-nota{
+    font-size: 20px;
 }
 
 .añadir-nota form input{
@@ -314,6 +324,11 @@ h2{
     cursor: pointer;
 }
 
+.primerContenedorNota{
+    flex-wrap: wrap;
+    width: 80%;
+}
+
 .segundoContenedorNota{
     display: flex;
     flex-direction: row-reverse;
@@ -340,6 +355,10 @@ h2{
     text-align: left;
     color: white;
     height: auto;
+}
+
+.descripcionNotaAbierta{
+    padding: 1em;
 }
 
 .cerrar-descripcion{

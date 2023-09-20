@@ -1,5 +1,6 @@
 import CarpetaIcon from "../assets/folder.png";
 import Borrar from "../assets/borrar.png";
+import Editar from "../assets/edit.png";
 
 let clicable = true;
 class Carpeta {
@@ -14,13 +15,28 @@ class Carpeta {
         this.divCarpeta.carpetaInstance = this;
     }
 
+    editarNotas(id, titulo, fecha, descripcion){
+
+        console.log("Modificando nota con id " + id + " titulo: " + titulo);
+
+        this.coleccionNotas.forEach(nota => {
+            if(nota.id === id){
+                nota.titulo = titulo;
+                nota.fecha = fecha;
+                nota.descripcion = descripcion;
+            }
+        });
+        
+        this.mostrarNotas();
+    }
+
     añadirNotas(nota){
         this.coleccionNotas.push(nota);
     }
 
     borrarNota(id) {
         this.coleccionNotas = this.coleccionNotas.filter(nota => nota.id !== id);
-        
+        this.mostrarNotas();
     }
 
     mostrarNotas(){
@@ -159,6 +175,50 @@ class Nota{
         this.divNota = this.crearNota();
     }
 
+    editarNota(){
+        activarOverlay();
+        console.log("Editando " + this.titulo + " con id: " + this.id);
+
+        
+        let añadirNotaDiv = document.querySelector(".añadir-nota");
+        añadirNotaDiv.style.zIndex = "3";
+        añadirNotaDiv.style.display = "flex";
+        
+        let tituloNota = document.querySelector("#titulo-nota");
+        tituloNota.textContent = this.titulo;
+
+        let fechaNota = document.querySelector("#fecha-nota");
+        fechaNota.value = this.fecha;
+
+        let descripcionNota = document.querySelector("#descripcion-nota");
+        descripcionNota.textContent = this.descripcion;
+
+        let btnCrearNota = document.querySelector("#crear-nota");
+        
+        btnCrearNota.value = "Editar nota";
+
+        let id, titulo, fecha, descripcion, carpeta, nota;
+        nota = this.nota;
+        id = this.id
+        titulo = tituloNota.textContent;
+        fecha = fechaNota.value;
+        descripcion = descripcionNota.textContent;
+        carpeta = this.carpeta;
+
+        btnCrearNota.addEventListener("click", function(){
+        
+            // Obtén el valor actualizado del campo de título
+            const tituloActualizado = tituloNota.value;
+            const fechaActualizada = fechaNota.value;
+            const descripcionActualizada = descripcionNota.textContent;
+        
+            carpeta.editarNotas(id, tituloActualizado, fechaActualizada, descripcionActualizada);
+            carpeta.borrarNota(id);
+        });
+
+        desactivarOverlay();
+    }
+
     borrarNota(){
         this.carpeta.borrarNota(this.id);
         this.divNota.remove();
@@ -190,7 +250,7 @@ class Nota{
 
         const checkBox = document.createElement("input");
         checkBox.type = "checkbox";
-        divNota.appendChild(checkBox);
+        contNota.appendChild(checkBox);
 
         const titulo = document.createElement("p");
         titulo.textContent = this.titulo;
@@ -211,9 +271,13 @@ class Nota{
 
         const imgBorrarNota = document.createElement("img");
         imgBorrarNota.src = Borrar;
+
+        const imgEditarNota = document.createElement("img");
+        imgEditarNota.src = Editar;
         
         divPrimerContenedorNota.appendChild(divNota);
         divSegundoContenedorNota.appendChild(imgBorrarNota);
+        divSegundoContenedorNota.appendChild(imgEditarNota);
         
         contNota.appendChild(divPrimerContenedorNota);
         contNota.appendChild(divSegundoContenedorNota);
@@ -224,6 +288,11 @@ class Nota{
 
         imgBorrarNota.addEventListener("click", () => {
             this.borrarNota();
+
+        });
+
+        imgEditarNota.addEventListener("click", () => {
+            this.editarNota();
 
         });
 
@@ -239,6 +308,8 @@ function activarAviso(){
 
     const contenedorAviso = document.getElementById("contenedorAviso");
     const cerrarAvisoBtn = document.getElementById("cerrarAviso");
+    const eliminarBtnAviso = document.querySelector("#eliminar");
+    eliminarBtnAviso.style.display = "";
     contenedorAviso.style.display = "block";
     cerrarAvisoBtn.addEventListener("click", () => {
         contenedorAviso.style.display = "none";
@@ -248,6 +319,16 @@ function activarAviso(){
 function desactivarAviso(){
     const contenedorAviso = document.getElementById("contenedorAviso");
     contenedorAviso.style.display = "none";
+}
+
+function activarOverlay() {
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+}
+
+function desactivarOverlay() {
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "none";
 }
 
 export {Carpeta, Nota};
