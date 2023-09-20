@@ -17,8 +17,6 @@ function addImages(){
     const gitLogo = document.querySelector(".tema");
     gitLogo.src = GitHub;
 
-    enlaceLogo.appendChild(gitLogo);
-
     //añado tambien la funcionalidad de ocultar panel
     const ocultarPanel = document.querySelector(".ocultar-panel");
     ocultarPanel.src = Menu;
