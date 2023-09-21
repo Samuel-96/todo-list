@@ -4,6 +4,7 @@ import Menu from "../assets/abrir-menu.png";
 import GitHub from "../assets/github-logo.png";
 import Inbox from "../assets/inbox.png";
 import Folder from "../assets/folder.png";
+import FavIcon from "../assets/notas-icon.png";
 
 function addImages(){
 
@@ -18,6 +19,13 @@ function addImages(){
 
     const gitLogo = document.querySelector(".tema");
     gitLogo.src = GitHub;
+
+    console.log('Cambiando favicon...');
+    const newFavicon = document.createElement('link');
+    newFavicon.rel = 'icon';
+    newFavicon.type = 'image/x-icon';
+    newFavicon.href = FavIcon;
+    document.head.appendChild(newFavicon);
 
     //añado tambien la funcionalidad de ocultar panel
     const ocultarPanel = document.querySelector(".ocultar-panel");
