@@ -111,6 +111,7 @@ h2{
     border-radius: 6px;
     cursor: pointer; 
     transition: background-color 0.3s ease-in-out;
+    margin: 10px;
 }
 
 .contenedor-carpetas{
@@ -370,4 +371,26 @@ h2{
     border-radius: 6px;
     cursor: pointer; 
     transition: background-color 0.3s ease-in-out;
+}
+
+.inbox{
+    cursor: pointer;
+}
+
+.inbox, .carpetas{
+    margin: 5px;
+    padding: 0.3em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+    align-items: center;
+    background-color: #42424b;
+    border-radius: 8px;
+}
+
+.inbox img, .carpetas img{
+    height: 30px;
+    width: 30px;
 }

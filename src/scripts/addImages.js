@@ -2,6 +2,8 @@ import Add from "../assets/add.png";
 import {Carpeta} from "./objects.js";
 import Menu from "../assets/abrir-menu.png";
 import GitHub from "../assets/github-logo.png";
+import Inbox from "../assets/inbox.png";
+import Folder from "../assets/folder.png";
 
 function addImages(){
 
@@ -30,6 +32,12 @@ function addImages(){
             panelIzq.style.display = "none";
         }
     });
+
+    const bandejaEntrada = document.querySelector("#bandeja-entrada");
+    bandejaEntrada.src = Inbox;
+
+    const bandekaCarpetas = document.querySelector("#bandeja-carpetas");
+    bandekaCarpetas.src = Folder;
 
     //añadimos logica a la seleccion de la fecha de la nota
     const fecha = document.querySelector("#fecha-nota");

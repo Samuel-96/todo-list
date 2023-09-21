@@ -1,13 +1,16 @@
-import {Carpeta, Nota} from "./objects.js"
+import {Carpeta, Nota, clicable} from "./objects.js"
 let carpetaSeleccionada = null;
 let carpetaElegida = false;
 
+let buzonAbierto = false;
+
 function añadirBotones(){
+
     //declaracion de botones
     const botonCrearCarpeta = document.querySelector("#crear-carpeta");   
     const botonAñadirNota = document.querySelector(".nueva-nota");
     const cancelarNota = document.querySelector(".cancelar-nota");
-
+    const buzonEntrada = document.querySelector(".inbox");
 
     cancelarNota.addEventListener("click", function(){
         document.querySelector(".añadir-nota").style.display = "none";
@@ -38,6 +41,8 @@ function añadirBotones(){
 
     //boton de añadir nota 
     botonAñadirNota.addEventListener("click", comprobarCarpetaSeleccionada);
+
+    buzonEntrada.addEventListener("click", mostratTodasLasNotas);
 }
 
 function activarAviso(){
@@ -85,9 +90,7 @@ function comprobarCarpetaSeleccionada() {
             
             const avisoh1 = document.querySelector(".aviso");
             avisoh1.textContent = "Debes seleccionar antes una carpeta donde guardar las notas";
-            const eliminarAvisoBtn = document.getElementById("eliminar");
-            eliminarAvisoBtn.style.display = "none";
-            activarAviso();
+            activarAvisoSinEliminar();
             
         }
     });
@@ -117,14 +120,11 @@ function crearNota() {
     const fecha = document.querySelector("#fecha-nota").value;
     const descripcion = document.querySelector("#descripcion-nota").value;
 
-    console.log(carpetaSeleccionada);
     const nuevaNota = new Nota(titulo, fecha, descripcion, carpetaSeleccionada);
 
 
     if (carpetaSeleccionada !== null) {
         carpetaSeleccionada.añadirNotas(nuevaNota.appendDivNota());
-        
-        console.log(carpetaSeleccionada.mostrarNotas());
 
         const contadorNotas = document.querySelector(".contador-notas");
         const notas = carpetaSeleccionada.mostrarNotas();
@@ -153,4 +153,82 @@ function desactivarOverlay() {
     overlay.style.display = "none";
 }
 
-export {añadirBotones};
+function ocultarInfoNotas(){
+    //ocultamos el contenido del panel lateral derecho
+    const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+    const hijos = Array.from(contLatDerecho.children);
+
+    hijos.forEach(hijo => {
+        hijo.style.display = "none";
+    });
+}
+
+function mostratTodasLasNotas(){
+    let notasHoy = [];
+    const inbox = document.querySelector(".inbox");
+    const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+
+    if(clicable){
+        if(inbox.style.borderColor === "white"){
+            inbox.style.borderStyle = "none";
+            inbox.style.borderColor = "black";
+            buzonAbierto = false;
+            return;
+        }
+        else{
+
+            let fechaHoy = new Date();
+            buzonAbierto = false;
+    
+            const carpetas = document.querySelectorAll(".contenedor-carpetas");
+            carpetas.forEach(carpeta => {
+                if(carpeta.style.borderColor === "white"){
+                    carpetaElegida = true;
+                    buzonAbierto = false;
+                    clicable = false;
+                }
+                else{
+                    carpetaElegida = false;
+                }
+                carpeta.carpetaInstance.mostrarNotas().forEach(nota => {
+                    let notaFecha = new Date(nota.fecha);
+                    if (
+                        fechaHoy.getFullYear() === notaFecha.getFullYear() &&
+                        fechaHoy.getMonth() === notaFecha.getMonth() &&
+                        fechaHoy.getDay() === notaFecha.getDay()
+                    ) {
+                        notasHoy.push(nota);
+                    }
+                });
+            });
+    
+            if(carpetaElegida){
+                inbox.style.borderStyle = "none";
+                inbox.style.borderColor = "black";
+                clicable = false;
+                carpetaElegida = false;
+                buzonAbierto = false;
+                return;
+            }
+            else{
+                buzonAbierto = true;
+                inbox.style.borderStyle = "solid";
+                inbox.style.borderColor = "white";
+                ocultarInfoNotas();
+
+                const info = document.querySelector("#nombre-carpeta-seleccionada");
+                info.textContent = "NOTAS DEL DÍA " + fechaHoy.getDate() + " de " + fechaHoy.toLocaleDateString(undefined, { month: 'long' });
+
+                notasHoy.forEach(nota => {
+                    
+                    contLatDerecho.appendChild(nota.divNota);
+                    nota.divNota.style.display = "";
+                });
+    
+            }
+            
+        }
+    }
+}
+
+export {añadirBotones, buzonAbierto};

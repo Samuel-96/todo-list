@@ -1,6 +1,7 @@
 import CarpetaIcon from "../assets/folder.png";
 import Borrar from "../assets/borrar.png";
 import Editar from "../assets/edit.png";
+import { buzonAbierto } from "./addButtons";
 
 let clicable = true;
 class Carpeta {
@@ -16,8 +17,6 @@ class Carpeta {
     }
 
     editarNotas(id, titulo, fecha, descripcion){
-
-        console.log("Modificando nota con id " + id + " titulo: " + titulo);
 
         this.coleccionNotas.forEach(nota => {
             if(nota.id === id){
@@ -121,10 +120,33 @@ class Carpeta {
         // Lógica para seleccionar la carpeta
         const elementoSeleccionado = event.target;
         const h2CarpetaSeleccionada = document.querySelector("#nombre-carpeta-seleccionada");
+        console.log(buzonAbierto);
+        if(this.focus === false && clicable === true && buzonAbierto == false){ 
+            //mostramos el contenido del panel lateral derecho ocultado por inbox
+            const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+            const hijos = Array.from(contLatDerecho.children);
 
-        if(this.focus === false && clicable === true){
+            hijos.forEach(hijo => {
+                if(hijo.style.display === "none"){
+                    hijo.style.display = "";
+                }
+                hijo.style.display = "";
+            });
+
             if(elementoSeleccionado.classList.value !== "borrar-carpeta" && elementoSeleccionado.parentNode.classList.value === "contenedor-carpetas"){
                
+                 //mostramos el contenido del panel lateral derecho ocultado por inbox
+                const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+                const hijos = Array.from(contLatDerecho.children);
+
+                hijos.forEach(hijo => {
+                    if(hijo.style.display === "none"){
+                        hijo.style.display = "";
+                    }
+                    hijo.style.display = "";
+                });
+
+
                 elementoSeleccionado.parentNode.style.borderStyle = "solid";
                 elementoSeleccionado.parentNode.style.borderColor = "white";
                 h2CarpetaSeleccionada.textContent = elementoSeleccionado.textContent;
@@ -137,6 +159,18 @@ class Carpeta {
             }
             else if(elementoSeleccionado.classList.value === "contenedor-carpetas"){
 
+                 //mostramos el contenido del panel lateral derecho ocultado por inbox
+                const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+                const hijos = Array.from(contLatDerecho.children);
+
+                hijos.forEach(hijo => {
+                    if(hijo.style.display === "none"){
+                        hijo.style.display = "";
+                    }
+                    hijo.style.display = "";
+                });
+
+
                 this.divCarpeta.style.borderStyle = "solid";
                 this.divCarpeta.style.borderColor = "white";
                 h2CarpetaSeleccionada.textContent = this.divCarpeta.children[1].textContent;
@@ -148,6 +182,7 @@ class Carpeta {
 
             }
         }
+        //esto cuando se desmarca una carpeta
         else if(this.focus === true && clicable === false){
             this.divCarpeta.parentNode.style.borderColor = "black";
             this.divCarpeta.parentNode.style.borderStyle = "none";
@@ -173,12 +208,11 @@ class Nota{
         this.descripcion = descripcion;
         this.carpeta = carpeta;
         this.divNota = this.crearNota();
+        this.divNota.notaInstance = this;
     }
 
     editarNota(){
         activarOverlay();
-        console.log("Editando " + this.titulo + " con id: " + this.id);
-
         
         let añadirNotaDiv = document.querySelector(".añadir-nota");
         añadirNotaDiv.style.zIndex = "3";
@@ -232,9 +266,14 @@ class Nota{
         button.addEventListener("click", function(){
             div.style.display = "none";
         });
+        
         p.textContent = this.descripcion;
-        div.style.display = "flex";
-        div.style.padding = "1em";
+
+        if(p.textContent.length !== 0){
+            div.style.display = "flex";
+            div.style.padding = "1em";
+        }
+        
         
     }
 
@@ -331,4 +370,4 @@ function desactivarOverlay() {
     overlay.style.display = "none";
 }
 
-export {Carpeta, Nota};
+export {Carpeta, Nota, clicable};
