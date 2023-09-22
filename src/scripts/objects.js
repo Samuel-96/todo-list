@@ -36,6 +36,9 @@ class Carpeta {
     borrarNota(id) {
         this.coleccionNotas = this.coleccionNotas.filter(nota => nota.id !== id);
         this.mostrarNotas();
+        if(this.coleccionNotas.length < 1){
+            document.querySelector(".contador-notas").textContent = "Notas (0)";
+        }
     }
 
     mostrarNotas(){
@@ -120,7 +123,6 @@ class Carpeta {
         // Lógica para seleccionar la carpeta
         const elementoSeleccionado = event.target;
         const h2CarpetaSeleccionada = document.querySelector("#nombre-carpeta-seleccionada");
-        console.log(buzonAbierto);
         if(this.focus === false && clicable === true && buzonAbierto == false){ 
             //mostramos el contenido del panel lateral derecho ocultado por inbox
             const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
@@ -212,7 +214,6 @@ class Nota{
     }
 
     editarNota(){
-        activarOverlay();
         
         let añadirNotaDiv = document.querySelector(".añadir-nota");
         añadirNotaDiv.style.zIndex = "3";
@@ -248,9 +249,11 @@ class Nota{
         
             carpeta.editarNotas(id, tituloActualizado, fechaActualizada, descripcionActualizada);
             carpeta.borrarNota(id);
+            añadirNotaDiv.style.display = "none";
+            desactivarOverlay();
         });
 
-        desactivarOverlay();
+        
     }
 
     borrarNota(){
@@ -259,12 +262,16 @@ class Nota{
     }
     
     abrirDescripcion() {
+        activarOverlay();
         const div = document.querySelector(".abrirDescripcionNota");
+
+        div.style.zIndex = "3";
         const p = document.querySelector(".descripcionNotaAbierta");
         const button = document.querySelector(".cerrar-descripcion");
 
         button.addEventListener("click", function(){
             div.style.display = "none";
+            desactivarOverlay();
         });
         
         p.textContent = this.descripcion;
@@ -331,6 +338,7 @@ class Nota{
         });
 
         imgEditarNota.addEventListener("click", () => {
+            activarOverlay();
             this.editarNota();
 
         });

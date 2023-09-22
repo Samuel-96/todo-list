@@ -24,10 +24,12 @@ function añadirBotones(){
         let nombreCarpeta = campoNuevaCarpeta.value;
         if(nombreCarpeta === ""){
             const avisoh1 = document.querySelector(".aviso");
+            activarOverlay();
             avisoh1.textContent = "El nombre de la carpeta no puede estar vacío";
             const eliminarBtnAviso = document.querySelector("#eliminar");
             eliminarBtnAviso.style.display = "none";
             activarAvisoSinEliminar();
+            //desactivarOverlay();
             
         }
         else{
@@ -60,12 +62,14 @@ function activarAviso(){
 function activarAvisoSinEliminar(){
 
     const contenedorAviso = document.getElementById("contenedorAviso");
+    contenedorAviso.style.zIndex = "3";
     const cerrarAvisoBtn = document.getElementById("cerrarAviso");
     const eliminarBtnAviso = document.querySelector("#eliminar");
     eliminarBtnAviso.style.display = "none";
     contenedorAviso.style.display = "block";
     cerrarAvisoBtn.addEventListener("click", () => {
         contenedorAviso.style.display = "none";
+        desactivarOverlay();
     });
 }
 
@@ -87,7 +91,7 @@ function comprobarCarpetaSeleccionada() {
         }
 
         else if(carpetaElegida == false){
-            
+            activarOverlay();
             const avisoh1 = document.querySelector(".aviso");
             avisoh1.textContent = "Debes seleccionar antes una carpeta donde guardar las notas";
             activarAvisoSinEliminar();
