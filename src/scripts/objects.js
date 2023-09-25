@@ -70,7 +70,7 @@ class Carpeta {
                         divNotaModificar.innerHTML = "contenido actualizado" ;
                         notaAModificar.divNota.style.display = "none";
                         datos.notas = datos.notas.filter(nota => nota.id !== id);
-                        guardarDatos();
+
                         location.reload()
                     } else {
                     }
