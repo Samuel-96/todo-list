@@ -73,7 +73,7 @@ function storageAvailable(type) {
                     const nuevaCarpeta = new Carpeta(datosCarpeta.nombre, notasDeCarpeta, datosCarpeta.id);
                     nuevaCarpeta.id = datosCarpeta.id;
                     nuevaCarpeta.coleccionNotas = notasDeCarpeta;
-                    console.log(nuevaCarpeta.coleccionNotas);
+                    //console.log(nuevaCarpeta.coleccionNotas);
                     contenedor.appendChild(nuevaCarpeta.divCarpeta);
 
                     Object.setPrototypeOf(nuevaCarpeta, Carpeta.prototype);

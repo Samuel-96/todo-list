@@ -53,7 +53,7 @@ class Carpeta {
         else {
             const notaAModificar = datos.notas.find(nota => nota.id === id);
             const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
-            console.log(contenedorDcho);
+
             if (notaAModificar) {
                 // Realiza las modificaciones necesarias en la nota
                 notaAModificar.titulo = titulo;
@@ -95,7 +95,9 @@ class Carpeta {
             if(this.coleccionNotas.length < 1){
                 document.querySelector(".contador-notas").textContent = "Notas (0)";
             }
+            guardarDatos();
         }
+        guardarDatos();
         
     }
 
@@ -323,7 +325,7 @@ class Nota{
         fecha = fechaNota.value;
         descripcion = descripcionNota.textContent;
         carpeta = this.carpeta;
-        console.log(carpeta);
+
         btnCrearNota.addEventListener("click", function(){
         
             // Obtén el valor actualizado del campo de título
@@ -348,6 +350,7 @@ class Nota{
         //this.divNota.remove();
         this.carpeta.borrarNota(id);
         this.carpeta.mostrarNotas();     
+        guardarDatos();
     }
     
     abrirDescripcion() {

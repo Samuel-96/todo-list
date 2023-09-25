@@ -178,6 +178,7 @@ function mostrarTodasLasNotas(){
             inbox.style.borderStyle = "none";
             inbox.style.borderColor = "black";
             buzonAbierto = false;
+
             return;
         }
         else{
@@ -192,17 +193,17 @@ function mostrarTodasLasNotas(){
                     carpetaElegida = true;
                     buzonAbierto = false;
                     clicable = false;
+                    const notas = document.querySelectorAll(".contenedor-notas");
                     
                 }
                 else{
                     carpetaElegida = false;
+                    const notas = document.querySelectorAll(".contenedor-notas");
+
                 }
                 if(carpeta.carpetaInstance.mostrarNotas() !== null && carpeta.carpetaInstance.mostrarNotas() !== undefined){
                     const notas = document.querySelectorAll(".contenedor-notas");
 
-                notas.forEach(nota => {
-                    nota.style.pointerEvents = "none";
-                });
                     carpeta.carpetaInstance.mostrarNotas().forEach(nota => {
                         let notaFecha = new Date(nota.fecha);
                         if (
@@ -217,9 +218,6 @@ function mostrarTodasLasNotas(){
                 else{
                     const notas = document.querySelectorAll(".contenedor-notas");
 
-                    notas.forEach(nota => {
-                        nota.style.pointerEvents = "none";
-                    });
                     datos.notas.forEach(nota => {
                         let notaFecha = new Date(nota.fecha);
                         if (
@@ -247,11 +245,6 @@ function mostrarTodasLasNotas(){
                 inbox.style.borderStyle = "solid";
                 inbox.style.borderColor = "white";
                 ocultarInfoNotas();
-                const notas = document.querySelectorAll(".contenedor-notas");
-
-                notas.forEach(nota => {
-                    nota.style.pointerEvents = "none";
-                });
                 const info = document.querySelector("#nombre-carpeta-seleccionada");
                 info.textContent = "NOTAS DEL DÍA " + fechaHoy.getDate() + " de " + fechaHoy.toLocaleDateString(undefined, { month: 'long' });
 
