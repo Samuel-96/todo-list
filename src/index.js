@@ -1,14 +1,11 @@
 import {añadirBotones} from "./scripts/addButtons.js";
 import "./styles/style.css";
 import { addImages } from "./scripts/addImages.js";
-import { storageAvailable } from "./scripts/almacenamientoLocal.js";
-
-if (storageAvailable("localStorage")) {
-    console.log("Funciona el almacenamiento local!!");
-  } else {
-    console.log("No funciona almacenamiento local")
-  }
-  
+import { cargarDatos, guardarDatos } from "./scripts/almacenamientoLocal.js";
+import { datos, datosFormato, datosCarpetas, datosNotas } from "./scripts/objects.js";
 
 addImages();
 añadirBotones();
+window.addEventListener("load",cargarDatos);
+window.addEventListener("beforeunload",guardarDatos);
+

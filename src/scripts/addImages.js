@@ -1,9 +1,10 @@
 import Add from "../assets/add.png";
-import {Carpeta} from "./objects.js";
+import {Carpeta, Nota} from "./objects.js";
 import Menu from "../assets/abrir-menu.png";
 import GitHub from "../assets/github-logo.png";
 import Inbox from "../assets/inbox.png";
 import Folder from "../assets/folder.png";
+import { datos } from "./objects.js";
 
 function addImages(){
 
@@ -11,6 +12,16 @@ function addImages(){
     nuevaNota.src = Add;
 
     const nuevaCarpeta = new Carpeta("Carpeta inicial");
+    const notaEjemplo = new Nota("Nota de ejemplo", "fecha", "descripcion");
+        notaEjemplo.crearNota();
+        nuevaCarpeta.añadirNotas(notaEjemplo.appendDivNota());
+        nuevaCarpeta.mostrarNotas();
+    if(!datos.carpetas[0].nombre === "Carpeta inicial"){
+        console.log("no hay carpeta inicial");
+        
+        datos.carpetas.push(nuevaCarpeta);
+    }
+    
     nuevaCarpeta.divCarpeta.id = "carpeta-inicial";
     nuevaCarpeta.divCarpeta.querySelector(".borrar-carpeta").remove();
     const contLatIzq = document.querySelector(".contenedor-lateral-izq");

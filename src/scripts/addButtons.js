@@ -1,7 +1,7 @@
-import {Carpeta, Nota, clicable} from "./objects.js"
+import {Carpeta, Nota, clicable, datos} from "./objects.js"
+
 let carpetaSeleccionada = null;
 let carpetaElegida = false;
-
 let buzonAbierto = false;
 
 function añadirBotones(){
@@ -33,8 +33,8 @@ function añadirBotones(){
             
         }
         else{
+            //CREACION DE UNA CARPETA NUEVA
             const nuevaCarpeta = new Carpeta(nombreCarpeta);
-
             // Agregar el contenedor al documento
             const contLatIzq = document.querySelector(".contenedor-lateral-izq");
             contLatIzq.appendChild(nuevaCarpeta.divCarpeta);
@@ -44,7 +44,7 @@ function añadirBotones(){
     //boton de añadir nota 
     botonAñadirNota.addEventListener("click", comprobarCarpetaSeleccionada);
 
-    buzonEntrada.addEventListener("click", mostratTodasLasNotas);
+    buzonEntrada.addEventListener("click", mostrarTodasLasNotas);
 }
 
 function activarAviso(){
@@ -124,22 +124,23 @@ function crearNota() {
     const fecha = document.querySelector("#fecha-nota").value;
     const descripcion = document.querySelector("#descripcion-nota").value;
 
+    //CREACION DE NOTA
     const nuevaNota = new Nota(titulo, fecha, descripcion, carpetaSeleccionada);
-
-
+    nuevaNota.crearNota();
     if (carpetaSeleccionada !== null) {
+
         carpetaSeleccionada.añadirNotas(nuevaNota.appendDivNota());
 
         const contadorNotas = document.querySelector(".contador-notas");
         const notas = carpetaSeleccionada.mostrarNotas();
         const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
-    
-        
+        carpetaSeleccionada.mostrarNotas();
+        /*
         notas.forEach(nota => {
             contenedorDcho.appendChild(nota.divNota);
             contadorNotas.textContent = "Notas (" + notas.length + ")";
-        });
-    
+        });*/
+        
     } 
     
     else {
@@ -167,7 +168,7 @@ function ocultarInfoNotas(){
     });
 }
 
-function mostratTodasLasNotas(){
+function mostrarTodasLasNotas(){
     let notasHoy = [];
     const inbox = document.querySelector(".inbox");
     const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
@@ -185,25 +186,52 @@ function mostratTodasLasNotas(){
             buzonAbierto = false;
     
             const carpetas = document.querySelectorAll(".contenedor-carpetas");
+            
             carpetas.forEach(carpeta => {
                 if(carpeta.style.borderColor === "white"){
                     carpetaElegida = true;
                     buzonAbierto = false;
                     clicable = false;
+                    
                 }
                 else{
                     carpetaElegida = false;
                 }
-                carpeta.carpetaInstance.mostrarNotas().forEach(nota => {
-                    let notaFecha = new Date(nota.fecha);
-                    if (
-                        fechaHoy.getFullYear() === notaFecha.getFullYear() &&
-                        fechaHoy.getMonth() === notaFecha.getMonth() &&
-                        fechaHoy.getDay() === notaFecha.getDay()
-                    ) {
-                        notasHoy.push(nota);
-                    }
+                if(carpeta.carpetaInstance.mostrarNotas() !== null && carpeta.carpetaInstance.mostrarNotas() !== undefined){
+                    const notas = document.querySelectorAll(".contenedor-notas");
+
+                notas.forEach(nota => {
+                    nota.style.pointerEvents = "none";
                 });
+                    carpeta.carpetaInstance.mostrarNotas().forEach(nota => {
+                        let notaFecha = new Date(nota.fecha);
+                        if (
+                            fechaHoy.getFullYear() === notaFecha.getFullYear() &&
+                            fechaHoy.getMonth() === notaFecha.getMonth() &&
+                            fechaHoy.getDay() === notaFecha.getDay()
+                        ) {
+                            notasHoy.push(nota);
+                        }
+                    });
+                }
+                else{
+                    const notas = document.querySelectorAll(".contenedor-notas");
+
+                    notas.forEach(nota => {
+                        nota.style.pointerEvents = "none";
+                    });
+                    datos.notas.forEach(nota => {
+                        let notaFecha = new Date(nota.fecha);
+                        if (
+                            fechaHoy.getFullYear() === notaFecha.getFullYear() &&
+                            fechaHoy.getMonth() === notaFecha.getMonth() &&
+                            fechaHoy.getDay() === notaFecha.getDay()
+                        ) {
+                            notasHoy.push(nota);
+                        }
+                    })
+                }
+                
             });
     
             if(carpetaElegida){
@@ -219,7 +247,11 @@ function mostratTodasLasNotas(){
                 inbox.style.borderStyle = "solid";
                 inbox.style.borderColor = "white";
                 ocultarInfoNotas();
+                const notas = document.querySelectorAll(".contenedor-notas");
 
+                notas.forEach(nota => {
+                    nota.style.pointerEvents = "none";
+                });
                 const info = document.querySelector("#nombre-carpeta-seleccionada");
                 info.textContent = "NOTAS DEL DÍA " + fechaHoy.getDate() + " de " + fechaHoy.toLocaleDateString(undefined, { month: 'long' });
 

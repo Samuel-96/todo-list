@@ -2,43 +2,95 @@ import CarpetaIcon from "../assets/folder.png";
 import Borrar from "../assets/borrar.png";
 import Editar from "../assets/edit.png";
 import { buzonAbierto } from "./addButtons";
+import { cargarDatos, guardarDatos } from "./almacenamientoLocal";
+const { v4: uuidv4 } = require('uuid');
 
 let clicable = true;
+
+let datos = {
+    carpetas: [],
+    notas: [],
+};
+
 class Carpeta {
 
-    constructor(nombreCarpeta) {
+    constructor(nombreCarpeta, coleccionNotas = null, id = null) {
+        this.id = id || uuidv4();
         this.nombre = nombreCarpeta;
         this.divCarpeta = this.crearCarpeta();
         this.agregarEventListeners();
         this.focus = false;
         this.seleccionada = false;
-        this.coleccionNotas = [];
+        //this.coleccionNotas = [];
+        this.coleccionNotas = coleccionNotas;
         this.divCarpeta.carpetaInstance = this;
+        datos.carpetas.push(this);
     }
 
-    editarNotas(id, titulo, fecha, descripcion){
+    editarNotas(id, titulo, fecha, descripcion) {
+        const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
+        if (this.coleccionNotas !== null) {
+            const notaAModificar = this.coleccionNotas.find(nota => nota.id === id);
+            
 
-        this.coleccionNotas.forEach(nota => {
-            if(nota.id === id){
-                nota.titulo = titulo;
-                nota.fecha = fecha;
-                nota.descripcion = descripcion;
+            if (notaAModificar) {
+                notaAModificar.divNota.style.display = "none";
+                // Elimina el div de la nota del contenedor derecho
+                const divNotaModificar = notaAModificar.divNota;
+                if (divNotaModificar && divNotaModificar.parentNode === contenedorDcho) {
+                    contenedorDcho.removeChild(divNotaModificar);
+                }
+
+                // Realiza las modificaciones necesarias en la nota
+                notaAModificar.titulo = titulo;
+                notaAModificar.fecha = fecha;
+                notaAModificar.descripcion = descripcion;
+                
+
             }
-        });
+        }
+        else {
+            const notaAModificar = datos.notas.find(nota => nota.id === id);
+
+            if (notaAModificar) {
+                // Realiza las modificaciones necesarias en la nota
+                notaAModificar.titulo = titulo;
+                notaAModificar.fecha = fecha;
+                notaAModificar.descripcion = descripcion;
+
+                const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
+                const divNotaModificar = notaAModificar.divNota;
+
+                if (notaAModificar.carpeta !== undefined) {
+                    if (divNotaModificar !== undefined) {
+                        // Si la nota ya está presente en el contenedorDcho, actualiza su contenido
+                        divNotaModificar.innerHTML = "contenido actualizado" ;
+                        location.reload()
+                    } else {
+                    }
+                }
+            }
+        }
         
-        this.mostrarNotas();
     }
 
     añadirNotas(nota){
-        this.coleccionNotas.push(nota);
+        if(this.coleccionNotas !== null){
+            this.coleccionNotas.push(nota);
+        }
+        
     }
 
     borrarNota(id) {
-        this.coleccionNotas = this.coleccionNotas.filter(nota => nota.id !== id);
-        this.mostrarNotas();
-        if(this.coleccionNotas.length < 1){
-            document.querySelector(".contador-notas").textContent = "Notas (0)";
+        //this.coleccionNotas = this.coleccionNotas.filter(nota => nota.id !== id);
+        datos.notas = datos.notas.filter(nota => nota.id !== id);
+        //this.mostrarNotas();
+        if(this.coleccionNotas !== null){
+            if(this.coleccionNotas.length < 1){
+                document.querySelector(".contador-notas").textContent = "Notas (0)";
+            }
         }
+        
     }
 
     mostrarNotas(){
@@ -50,12 +102,35 @@ class Carpeta {
 
         const contadorNotas = document.querySelector(".contador-notas");
         const notas = this.coleccionNotas;
-    
+
+        if(datos.notas.length > 0){
+            datos.notas.forEach(nota => {
+                if (datos.notas.length > 0) {
+                    datos.notas.forEach(nota => {
+                        if(nota.carpeta !== undefined){
+                            if (nota.divNota instanceof Node && nota.carpeta.id === this.id) {
+                                contenedorDcho.appendChild(nota.divNota);
+                            }
+                        }
+                        
+                    });
+                    contadorNotas.textContent = "Notas (" + datos.notas.length + ")";
+                }
+            });
+            return;
+        }
+
+        if(notas !== null){
+            if(notas.length > 0){
+                notas.forEach(nota => {
+                    if (nota.divNota instanceof Node) {
+                        contenedorDcho.appendChild(nota.divNota);
+                        contadorNotas.textContent = "Notas (" + notas.length + ")";
+                    }
+                });
+        }
         
-        notas.forEach(nota => {
-            contenedorDcho.appendChild(nota.divNota);
-            contadorNotas.textContent = "Notas (" + notas.length + ")";
-        });
+        }
         
         return this.coleccionNotas;
     }
@@ -105,8 +180,12 @@ class Carpeta {
             if (this.seleccionada) {
                 const carpetaClickeada = this.divCarpeta;
                 desactivarAviso();
+                datos.carpetas = datos.carpetas.filter(carpeta => carpeta.id !== carpetaClickeada.carpetaInstance.id);
+                this.coleccionNotas = [];
                 carpetaClickeada.remove();
                 this.seleccionada = false; // Desmarcar la carpeta como seleccionada después de borrarla
+
+                
             }
         });
 
@@ -200,17 +279,16 @@ class Carpeta {
     }
 }
 
-let idNotas = 1;
+
 
 class Nota{
-    constructor(titulo, fecha, descripcion, carpeta) {
-        this.id = idNotas++;
+    constructor(titulo, fecha, descripcion, carpeta, id = null) {
+        this.id = id || uuidv4();
         this.titulo = titulo;
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.carpeta = carpeta;
-        this.divNota = this.crearNota();
-        this.divNota.notaInstance = this;
+        datos.notas.push(this);
     }
 
     editarNota(){
@@ -239,7 +317,7 @@ class Nota{
         fecha = fechaNota.value;
         descripcion = descripcionNota.textContent;
         carpeta = this.carpeta;
-
+        console.log(carpeta);
         btnCrearNota.addEventListener("click", function(){
         
             // Obtén el valor actualizado del campo de título
@@ -248,21 +326,26 @@ class Nota{
             const descripcionActualizada = descripcionNota.textContent;
         
             carpeta.editarNotas(id, tituloActualizado, fechaActualizada, descripcionActualizada);
-            carpeta.borrarNota(id);
-            añadirNotaDiv.style.display = "none";
+            if(carpeta.coleccionNotas !== null){
+                carpeta.borrarNota(id);
+             añadirNotaDiv.style.display = "none";
+            }
+            
             desactivarOverlay();
         });
 
         
     }
 
-    borrarNota(){
-        this.carpeta.borrarNota(this.id);
-        this.divNota.remove();
+    borrarNota(id){
+        datos.notas = datos.notas.filter(nota => nota.id !== id);
+        //this.divNota.remove();
+        this.carpeta.borrarNota(id);
+        this.carpeta.mostrarNotas();     
     }
     
     abrirDescripcion() {
-        activarOverlay();
+        
         const div = document.querySelector(".abrirDescripcionNota");
 
         div.style.zIndex = "3";
@@ -277,6 +360,7 @@ class Nota{
         p.textContent = this.descripcion;
 
         if(p.textContent.length !== 0){
+            activarOverlay();
             div.style.display = "flex";
             div.style.padding = "1em";
         }
@@ -300,6 +384,9 @@ class Nota{
 
         const titulo = document.createElement("p");
         titulo.textContent = this.titulo;
+        if(this.titulo.length === 0){
+            titulo.textContent = "sin título";
+        }
         divNota.appendChild(titulo);
 
         const descripcion = document.createElement("p");
@@ -333,7 +420,7 @@ class Nota{
         });
 
         imgBorrarNota.addEventListener("click", () => {
-            this.borrarNota();
+            this.borrarNota(this.id);
 
         });
 
@@ -343,7 +430,7 @@ class Nota{
 
         });
 
-        return contNota;
+        this.divNota = contNota;
     }
 
     appendDivNota(){
@@ -378,4 +465,4 @@ function desactivarOverlay() {
     overlay.style.display = "none";
 }
 
-export {Carpeta, Nota, clicable};
+export {Carpeta, Nota, clicable, datos};
