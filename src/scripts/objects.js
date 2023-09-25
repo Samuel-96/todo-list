@@ -60,7 +60,7 @@ class Carpeta {
                 notaAModificar.fecha = fecha;
                 notaAModificar.descripcion = descripcion;
 
-                notaAModificar.divNota.style.display = "none";
+                //notaAModificar.divNota.style.display = "none";
                 const divNotaModificar = notaAModificar.divNota;
                 guardarDatos();
 
@@ -68,10 +68,10 @@ class Carpeta {
                     if (divNotaModificar !== undefined) {
                         // Si la nota ya está presente en el contenedorDcho, actualiza su contenido
                         divNotaModificar.innerHTML = "contenido actualizado" ;
-                        notaAModificar.divNota.style.display = "none";
-                        datos.notas = datos.notas.filter(nota => nota.id !== id);
-
+                        //notaAModificar.divNota.style.display = "none";
+                        //datos.notas = datos.notas.filter(nota => nota.id !== id);
                         location.reload()
+                        guardarDatos();
                     } else {
                     }
                 }

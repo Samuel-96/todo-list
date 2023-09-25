@@ -245,6 +245,11 @@ function mostrarTodasLasNotas(){
                 inbox.style.borderStyle = "solid";
                 inbox.style.borderColor = "white";
                 ocultarInfoNotas();
+                const notas = document.querySelectorAll(".contenedor-notas");
+
+                notas.forEach(nota => {
+                    nota.style.pointer = "default";
+                });
                 const info = document.querySelector("#nombre-carpeta-seleccionada");
                 info.textContent = "NOTAS DEL DÍA " + fechaHoy.getDate() + " de " + fechaHoy.toLocaleDateString(undefined, { month: 'long' });
 
