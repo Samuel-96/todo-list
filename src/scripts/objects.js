@@ -39,13 +39,14 @@ class Carpeta {
                 const divNotaModificar = notaAModificar.divNota;
                 if (divNotaModificar && divNotaModificar.parentNode === contenedorDcho) {
                     contenedorDcho.removeChild(divNotaModificar);
+                    notaAModificar.divNota.style.display = "none";
                 }
 
                 // Realiza las modificaciones necesarias en la nota
                 notaAModificar.titulo = titulo;
                 notaAModificar.fecha = fecha;
                 notaAModificar.descripcion = descripcion;
-                
+                notaAModificar.divNota.style.display = "none";
 
             }
         }
@@ -65,6 +66,7 @@ class Carpeta {
                     if (divNotaModificar !== undefined) {
                         // Si la nota ya está presente en el contenedorDcho, actualiza su contenido
                         divNotaModificar.innerHTML = "contenido actualizado" ;
+                        notaAModificar.divNota.style.display = "none";
                         location.reload()
                     } else {
                     }
@@ -114,7 +116,7 @@ class Carpeta {
                         }
                         
                     });
-                    contadorNotas.textContent = "Notas (" + datos.notas.length + ")";
+                    contadorNotas.textContent = "Notas";
                 }
             });
             return;
@@ -125,7 +127,7 @@ class Carpeta {
                 notas.forEach(nota => {
                     if (nota.divNota instanceof Node) {
                         contenedorDcho.appendChild(nota.divNota);
-                        contadorNotas.textContent = "Notas (" + notas.length + ")";
+                        contadorNotas.textContent = "Notas";
                     }
                 });
         }
@@ -234,7 +236,7 @@ class Carpeta {
                 this.focus = true;
                 clicable = false;
                 const contadorNotas = document.querySelector(".contador-notas");
-                contadorNotas.textContent = "Notas (" + this.mostrarNotas.length + ")";
+                contadorNotas.textContent = "Notas";
                 this.mostrarNotas();
                 
             }
@@ -258,7 +260,7 @@ class Carpeta {
                 this.focus = true;
                 clicable = false;
                 const contadorNotas = document.querySelector(".contador-notas");
-                contadorNotas.textContent = "Notas (" + this.mostrarNotas.length + ")";
+                contadorNotas.textContent = "Notas";
                 this.mostrarNotas();
 
             }
