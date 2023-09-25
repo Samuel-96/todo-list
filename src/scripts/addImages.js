@@ -11,11 +11,13 @@ function addImages(){
     const nuevaNota = document.querySelector(".nueva-nota");
     nuevaNota.src = Add;
 
-    const nuevaCarpeta = new Carpeta("Carpeta inicial");
+    const nuevaCarpeta = new Carpeta("Carpeta de ejemplo");
+    nuevaCarpeta.divCarpeta.style.pointerEvents = "none";
     const notaEjemplo = new Nota("Nota de ejemplo", "fecha", "descripcion");
         notaEjemplo.crearNota();
         nuevaCarpeta.añadirNotas(notaEjemplo.appendDivNota());
         nuevaCarpeta.mostrarNotas();
+        nuevaCarpeta.divCarpeta.style.cursor = "none";
     if(!datos.carpetas[0].nombre === "Carpeta inicial"){
         console.log("no hay carpeta inicial");
         
