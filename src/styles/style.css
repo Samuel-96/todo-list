@@ -193,7 +193,7 @@ h2{
     margin: 0 auto;
     height: 6%;
     max-height: 20px;
-    width: 95%;
+    width: 97%;
     background-color: #e3474799;;
     display: flex;
     flex-wrap: wrap;
@@ -332,13 +332,15 @@ h2{
 
 .segundoContenedorNota{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
 
 }
 
 .segundoContenedorNota img{
-    height: 33px;
-    width: 33px;
+    height: 30px;
+    width: 30px;
 }
 
 .abrirDescripcionNota{
@@ -394,3 +396,4 @@ h2{
     height: 30px;
     width: 30px;
 }
+

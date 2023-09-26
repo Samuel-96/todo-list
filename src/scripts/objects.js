@@ -52,27 +52,32 @@ class Carpeta {
         }
         else {
             const notaAModificar = datos.notas.find(nota => nota.id === id);
-            const contenedorDcho = document.querySelector(".contenedor-lateral-dcho");
+            datos.notas = datos.notas.filter(nota => nota.id !== id);
 
             if (notaAModificar) {
                 // Realiza las modificaciones necesarias en la nota
                 notaAModificar.titulo = titulo;
                 notaAModificar.fecha = fecha;
                 notaAModificar.descripcion = descripcion;
+                notaAModificar.divNota.style.display = "none";
 
                 //notaAModificar.divNota.style.display = "none";
                 const divNotaModificar = notaAModificar.divNota;
-                guardarDatos();
 
                 if (notaAModificar.carpeta !== undefined) {
                     if (divNotaModificar !== undefined) {
-                        // Si la nota ya está presente en el contenedorDcho, actualiza su contenido
                         divNotaModificar.innerHTML = "contenido actualizado" ;
-                        //notaAModificar.divNota.style.display = "none";
-                        //datos.notas = datos.notas.filter(nota => nota.id !== id);
+                        console.log(datos.notas);
+
+                        const tituloExistente = datos.notas.some(nota => nota.titulo === notaAModificar.titulo);
+                        // Si no existe una nota con el mismo título, entonces puedes agregarla
+                        if (!tituloExistente) {
+                            datos.notas.push(notaAModificar);
+                        }
                         location.reload()
                         guardarDatos();
                     } else {
+                        console.log("hey");
                     }
                 }
             }
@@ -181,25 +186,31 @@ class Carpeta {
         const eliminarAvisoBtn = document.querySelector("#eliminar");
         const cerrarAvisoBtn = document.querySelector("#cerrarAviso");
         activarAviso();
-        this.seleccionada = true; // Marcar la carpeta como seleccionada
-
+        this.seleccionada = true;
         //se acepta la eliminación
         eliminarAvisoBtn.addEventListener("click", () => {
             if (this.seleccionada) {
                 const carpetaClickeada = this.divCarpeta;
                 desactivarAviso();
                 datos.carpetas = datos.carpetas.filter(carpeta => carpeta.id !== carpetaClickeada.carpetaInstance.id);
+                datos.notas = datos.notas.filter(nota => {
+                    // Verificar si nota está definida antes de intentar acceder a su propiedad carpeta.id
+                    if (nota && nota.carpeta && nota.carpeta.id) {
+                        return nota.carpeta.id !== this.id;
+                    }
+                    // Si nota es undefined o no tiene carpeta.id, simplemente no la incluimos en los resultados.
+                    return false;
+                });
                 this.coleccionNotas = [];
                 carpetaClickeada.remove();
-                this.seleccionada = false; // Desmarcar la carpeta como seleccionada después de borrarla
-
-                
+                this.seleccionada = false;   
+                this.mostrarNotas();
+                guardarDatos();  
             }
         });
 
-        // Cancelar la selección si se cierra el aviso sin eliminar
         cerrarAvisoBtn.addEventListener("click", () => {
-            this.seleccionada = false; // Desmarcar la carpeta como seleccionada
+            this.seleccionada = false; 
             desactivarAviso();
         });
         
@@ -304,6 +315,9 @@ class Nota{
         let añadirNotaDiv = document.querySelector(".añadir-nota");
         añadirNotaDiv.style.zIndex = "3";
         añadirNotaDiv.style.display = "flex";
+
+        const tituloNuevaNota = document.querySelector(".titulo-nuevaNota");
+        tituloNuevaNota.textContent = "Editar nota";
         
         let tituloNota = document.querySelector("#titulo-nota");
         tituloNota.textContent = this.titulo;
@@ -331,7 +345,7 @@ class Nota{
             // Obtén el valor actualizado del campo de título
             const tituloActualizado = tituloNota.value;
             const fechaActualizada = fechaNota.value;
-            const descripcionActualizada = descripcionNota.textContent;
+            const descripcionActualizada = descripcionNota.value;
         
             carpeta.editarNotas(id, tituloActualizado, fechaActualizada, descripcionActualizada);
             if(carpeta.coleccionNotas !== null){
@@ -340,6 +354,7 @@ class Nota{
             }
             
             desactivarOverlay();
+            tituloNuevaNota.textContent = "Crear nota";
         });
 
         
@@ -349,7 +364,14 @@ class Nota{
         datos.notas = datos.notas.filter(nota => nota.id !== id);
         //this.divNota.remove();
         this.carpeta.borrarNota(id);
-        this.carpeta.mostrarNotas();     
+        this.carpeta.coleccionNotas = datos.notas;
+        if(this.carpeta.mostrarNotas() !== undefined){
+            if(this.carpeta.mostrarNotas().length !== 0 && this.carpeta.mostrarNotas() !== null){
+                this.carpeta.mostrarNotas(); 
+            }
+        }
+        
+            
         guardarDatos();
     }
     
@@ -406,7 +428,7 @@ class Nota{
         const fechaOriginal = new Date(this.fecha);
         const opcionesDeFormato = { day: 'numeric', month: 'long', year: 'numeric' };
         fecha.textContent = fechaOriginal.toLocaleDateString(undefined, opcionesDeFormato);
-        divNota.appendChild(fecha);
+        //divNota.appendChild(fecha);
 
         const divSegundoContenedorNota = document.createElement("div");
         divSegundoContenedorNota.classList.add("segundoContenedorNota");
@@ -418,6 +440,7 @@ class Nota{
         imgEditarNota.src = Editar;
         
         divPrimerContenedorNota.appendChild(divNota);
+        divSegundoContenedorNota.appendChild(fecha);
         divSegundoContenedorNota.appendChild(imgBorrarNota);
         divSegundoContenedorNota.appendChild(imgEditarNota);
         

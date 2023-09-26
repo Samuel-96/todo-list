@@ -1,6 +1,7 @@
 import { datos, Carpeta, Nota} from "./objects.js";
 
 let datosFormato;
+const estadoActual = [];
 
 function storageAvailable(type) {
     let storage;
@@ -48,8 +49,6 @@ function storageAvailable(type) {
             const contenedor = document.querySelector(".contenedor-lateral-izq");
 
             const nuevasNotas = [];
-
-            console.log(notas);
 
             notas.forEach(datosNota => {
                 // Encuentra la carpeta correspondiente a esta nota
@@ -100,6 +99,15 @@ function guardarDatos() {
     catch (error) {
       console.error('Error al guardar datos en el almacenamiento local:', error);
     }
+  }
+
+  function obtenerEstadoActual(){
+    const contenedorIzq = document.querySelector(".contenedor-lateral-izq");
+    const carpetas = contenedorIzq.querySelectorAll(".contenedor-carpetas");
+    carpetas.forEach(carpeta => {
+      estadoActual.push(carpeta.carpetaInstance);
+    });
+    console.log(estadoActual);
   }
 
   function decycle(obj, stack = []) {

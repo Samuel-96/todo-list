@@ -1,3 +1,4 @@
+import { guardarDatos } from "./almacenamientoLocal.js";
 import {Carpeta, Nota, clicable, datos} from "./objects.js"
 
 let carpetaSeleccionada = null;
@@ -79,6 +80,8 @@ function desactivarAviso(){
 
 function comprobarCarpetaSeleccionada() {
     let carpetas = document.querySelectorAll(".contenedor-carpetas");
+    const notas = document.querySelectorAll(".contenedor-notas");
+
     carpetaElegida = false;
 
     carpetas.forEach(carpeta => {
@@ -106,6 +109,8 @@ function añadirNota(){
         desactivarAviso();
         activarOverlay();
         const añadirNotaDiv = document.querySelector(".añadir-nota");
+        const tituloNuevaNota = document.querySelector(".titulo-nuevaNota");
+        tituloNuevaNota.textContent = "Crear nota";
         añadirNotaDiv.style.zIndex = "3";
         añadirNotaDiv.style.display = "flex";
         
@@ -172,13 +177,17 @@ function mostrarTodasLasNotas(){
     let notasHoy = [];
     const inbox = document.querySelector(".inbox");
     const contLatDerecho = document.querySelector(".contenedor-lateral-dcho");
+    const notas = document.querySelectorAll(".contenedor-notas");
 
     if(clicable){
         if(inbox.style.borderColor === "white"){
             inbox.style.borderStyle = "none";
             inbox.style.borderColor = "black";
             buzonAbierto = false;
-
+            notas.forEach(nota => {
+                nota.style.pointerEvents = "cursor";
+                guardarDatos();
+            });
             return;
         }
         else{
@@ -193,16 +202,13 @@ function mostrarTodasLasNotas(){
                     carpetaElegida = true;
                     buzonAbierto = false;
                     clicable = false;
-                    const notas = document.querySelectorAll(".contenedor-notas");
                     
                 }
                 else{
                     carpetaElegida = false;
-                    const notas = document.querySelectorAll(".contenedor-notas");
 
                 }
                 if(carpeta.carpetaInstance.mostrarNotas() !== null && carpeta.carpetaInstance.mostrarNotas() !== undefined){
-                    const notas = document.querySelectorAll(".contenedor-notas");
 
                     carpeta.carpetaInstance.mostrarNotas().forEach(nota => {
                         let notaFecha = new Date(nota.fecha);
@@ -214,9 +220,9 @@ function mostrarTodasLasNotas(){
                             notasHoy.push(nota);
                         }
                     });
+                    
                 }
                 else{
-                    const notas = document.querySelectorAll(".contenedor-notas");
 
                     datos.notas.forEach(nota => {
                         let notaFecha = new Date(nota.fecha);
@@ -245,11 +251,6 @@ function mostrarTodasLasNotas(){
                 inbox.style.borderStyle = "solid";
                 inbox.style.borderColor = "white";
                 ocultarInfoNotas();
-                const notas = document.querySelectorAll(".contenedor-notas");
-
-                notas.forEach(nota => {
-                    nota.style.pointer = "default";
-                });
                 const info = document.querySelector("#nombre-carpeta-seleccionada");
                 info.textContent = "NOTAS DEL DÍA " + fechaHoy.getDate() + " de " + fechaHoy.toLocaleDateString(undefined, { month: 'long' });
 
@@ -257,6 +258,7 @@ function mostrarTodasLasNotas(){
                     
                     contLatDerecho.appendChild(nota.divNota);
                     nota.divNota.style.display = "";
+                    nota.divNota.style.cursor = "not-allowed"
                 });
     
             }
