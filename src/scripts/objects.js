@@ -367,11 +367,10 @@ class Nota{
         this.carpeta.coleccionNotas = datos.notas;
         if(this.carpeta.mostrarNotas() !== undefined){
             if(this.carpeta.mostrarNotas().length !== 0 && this.carpeta.mostrarNotas() !== null){
-                this.carpeta.mostrarNotas(); 
+                this.carpeta.mostrarNotas();
             }
         }
-        
-            
+         
         guardarDatos();
     }
     

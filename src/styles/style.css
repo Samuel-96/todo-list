@@ -212,13 +212,12 @@ h2{
 .primerContenedorNota{
     display: flex;
     flex-wrap: wrap;
-    width: 80%;
+    width: 81%;
 }
 
 .segundoContenedorNota{
     float: left;
-    width: 90%;
-    background-color: #024388;
+    width: 100%;
     align-items: center;
 }
 
